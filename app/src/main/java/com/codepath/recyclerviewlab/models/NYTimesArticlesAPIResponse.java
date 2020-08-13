@@ -7,6 +7,6 @@ public class NYTimesArticlesAPIResponse {
     @SerializedName("status")
     public String status;
 
-    @SerializedName("results")
+    @SerializedName("response")
     public ArticlesResponse response;
 }

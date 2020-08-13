@@ -1,9 +1,7 @@
 package com.codepath.recyclerviewlab.networking;
 
 import com.codepath.recyclerviewlab.models.Article;
-import com.codepath.recyclerviewlab.models.BestSellerBook;
 import com.codepath.recyclerviewlab.models.NYTimesArticlesAPIResponse;
-import com.codepath.recyclerviewlab.models.NYTimesBooksAPIResponse;
 
 import java.util.List;
 
@@ -29,7 +27,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NYTimesApiClient {
 
     // TODO: Replace the below API key with your own generated key
-    private static final String API_KEY = "KzWCpajS4dc5mwV1yPmi007mP1TEFk20";
+    private static final String API_KEY = "<YOUR-API-KEY-GOES-HERE>";
+
+    // returns the
+    private static final String API_FILTER = "headline, web_url, snippet, pub_date, word_count, print_page, print_section, section_name";
+    private static final String BEGIN_DATE = "20100101";
+    private static final String SORT_BY = "relevance";
     private NYTimesService nyTimesService;
 
     public NYTimesApiClient() {
@@ -40,39 +43,37 @@ public class NYTimesApiClient {
         nyTimesService = retrofit.create(NYTimesService.class);
     }
 
-    public void getBestSellersList(final CallbackResponse<List<BestSellerBook>> booksListResponse) {
-
-        // this hard codes to only the current date's hardcover fiction best selling books
-        // see https://developer.nytimes.com/docs/books-product/1/overview for more information on API documentation
-        Call<NYTimesBooksAPIResponse> current = nyTimesService.getBestSellingBooks("current", "hardcover-fiction", API_KEY);
-        current.enqueue(new Callback<NYTimesBooksAPIResponse>() {
-            @Override
-            public void onResponse(Call<NYTimesBooksAPIResponse> call, Response<NYTimesBooksAPIResponse> response) {
-                NYTimesBooksAPIResponse model = response.body();
-                if (response.isSuccessful() && model != null) {
-                    booksListResponse.onSuccess(model.results.books);
-                } else {
-                    booksListResponse.onFailure(new Throwable("error with response code " + response.code() + " " + response.message()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<NYTimesBooksAPIResponse> call, Throwable t) {
-                booksListResponse.onFailure(t);
-            }
-        });
+    /**
+     * gets the articles given a specific query, default page number to 0
+     * @param articlesListResponse
+     * @param query
+     */
+    public void getArticlesByQuery(final CallbackResponse<List<Article>> articlesListResponse, String query) {
+        getArticlesByQuery(articlesListResponse, query, 0);
     }
 
-    public void getArticlesByQuery(final CallbackResponse<List<Article>> articlesListResponse, String query) {
-        // this hard codes to only get the articles sorted by "newest" sort order
-        // you can actually alter the api query to have more search filters or change the sort order to search by "relevance"
+    /**
+     * gets the articles given a specific query and page number
+     * @param articlesListResponse
+     * @param query
+     * @param pageNumber
+     */
+    public void getArticlesByQuery(final CallbackResponse<List<Article>> articlesListResponse, String query, int pageNumber) {
+        // this hard codes to only get the articles sorted by "relevance" sort order
+        // you can actually alter the api query to have more search filters or change the sort order to search by "newest"
         // see https://developer.nytimes.com/docs/articlesearch-product/1/routes/articlesearch.json/get for more information on API documentation
-        Call<NYTimesArticlesAPIResponse> current = nyTimesService.getArticlesByQuery(query, "newest", API_KEY);
+        Call<NYTimesArticlesAPIResponse> current = nyTimesService.getArticlesByQuery(
+                query,
+                pageNumber,
+                SORT_BY,
+                API_FILTER,
+                BEGIN_DATE,
+                API_KEY);
         current.enqueue(new Callback<NYTimesArticlesAPIResponse>() {
             @Override
             public void onResponse(Call<NYTimesArticlesAPIResponse> call, Response<NYTimesArticlesAPIResponse> response) {
                 NYTimesArticlesAPIResponse model = response.body();
-                if (response.isSuccessful() && model != null) {
+                if (response.isSuccessful()) {
                     articlesListResponse.onSuccess(model.response.docs);
                 } else {
                     articlesListResponse.onFailure(new Throwable("error with response code " + response.code() + " " + response.message()));

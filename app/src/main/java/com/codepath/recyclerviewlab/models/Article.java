@@ -6,26 +6,32 @@ import java.util.List;
 
 public class Article {
     @SerializedName("id")
-    String _id;
-
-    @SerializedName("byline")
-    String byline;
+    public String id;
 
     @SerializedName("headline")
-    String headline;
+    public ArticleHeadline headline;
 
     @SerializedName("web_url")
-    String webUrl;
+    public String webUrl;
 
     @SerializedName("multimedia")
-    List<Multimedia> multimedia;
+    public List<Multimedia> multimedia;
 
     @SerializedName("snippet")
-    String snippet;
+    public String snippet;
 
     @SerializedName("word_count")
-    String wordCount;
+    public String wordCount;
+
+    @SerializedName("print_section")
+    public String printSection;
+
+    @SerializedName("section_name")
+    public String sectionName;
+
+    @SerializedName("print_page")
+    public String printPage;
 
     @SerializedName("pub_date")
-    String publishDate;
+    public String publishDate;
 }
