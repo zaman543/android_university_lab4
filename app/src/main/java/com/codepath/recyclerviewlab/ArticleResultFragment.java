@@ -79,10 +79,10 @@ public class ArticleResultFragment extends Fragment {
     private void loadNewArticlesByQuery(String query) {
         Log.d("ArticleResultFragment", "loading articles for query " + query);
         Toast.makeText(getContext(), "Loading articles for \'" + query + "\'", Toast.LENGTH_SHORT).show();
-        // TODO(Checkpoint 2): Implement this method to populate articles
+        // TODO(Checkpoint 3): Implement this method to populate articles
     }
 
     private void loadArticlesByPage(final int page) {
-        // TODO(Checkpoint 3): Implement this method to do infinite scroll
+        // TODO(Checkpoint 4): Implement this method to do infinite scroll
     }
 }
