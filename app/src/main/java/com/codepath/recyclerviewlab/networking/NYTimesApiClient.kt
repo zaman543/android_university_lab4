@@ -63,7 +63,9 @@ class NYTimesApiClient {
             override fun onResponse(call: Call<NYTimesArticlesAPIResponse?>, response: Response<NYTimesArticlesAPIResponse?>) {
                 val model = response.body()
                 if (response.isSuccessful) {
-                    model?.response?.docs?.let { articlesListResponse.onSuccess(it) }
+                    if (model?.response?.docs != null ) {
+                        articlesListResponse.onSuccess(model.response.docs)
+                    }
                 } else {
                     articlesListResponse.onFailure(Throwable("error with response code " + response.code() + " " + response.message()))
                 }
