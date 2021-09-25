@@ -1,5 +1,6 @@
 package com.codepath.recyclerviewlab.networking;
 
+import com.codepath.recyclerviewlab.BuildConfig;
 import com.codepath.recyclerviewlab.models.Article;
 import com.codepath.recyclerviewlab.models.NYTimesArticlesAPIResponse;
 
@@ -18,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  *
  *
  * IMPORTANT INSTRUCTIONS BELOW ===========================================================
- * TODO: You have to update API_KEY variable with your own NY-Times developer api key, see
+ * You have to update API_KEY variable with your own NY-Times developer api key, see
  * https://developer.nytimes.com/get-started to create your own developer account,
  * after copy and paste the API key under your Account -> Apps -> <Your App> -> API Keys
  *
@@ -26,8 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class NYTimesApiClient {
 
-    // TODO: Replace the below API key with your own generated key
-    private static final String API_KEY = "<YOUR-API-KEY-GOES-HERE>";
+    //Replace the below API key with your own generated key
+    private static final String API_KEY = BuildConfig.KEY;
 
     // returns the
     private static final String API_FILTER = "headline, web_url, snippet, pub_date, word_count, print_page, print_section, section_name";
@@ -45,8 +46,8 @@ public class NYTimesApiClient {
 
     /**
      * gets the articles given a specific query, default page number to 0
-     * @param articlesListResponse
-     * @param query
+     * @param articlesListResponse: stores the response in a list
+     * @param query: key word(s) to search for
      */
     public void getArticlesByQuery(final CallbackResponse<List<Article>> articlesListResponse, String query) {
         getArticlesByQuery(articlesListResponse, query, 0);
@@ -54,9 +55,9 @@ public class NYTimesApiClient {
 
     /**
      * gets the articles given a specific query and page number
-     * @param articlesListResponse
-     * @param query
-     * @param pageNumber
+     * @param articlesListResponse: stores response in list
+     * @param query: key word(s) to search for
+     * @param pageNumber: select page
      */
     public void getArticlesByQuery(final CallbackResponse<List<Article>> articlesListResponse, String query, int pageNumber) {
         // this hard codes to only get the articles sorted by "relevance" sort order
